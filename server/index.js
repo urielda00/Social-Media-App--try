@@ -11,10 +11,16 @@ import { fileURLToPath } from 'url';
 import exp from 'constants';
 import { error } from 'console';
 
+
+
 //internal imports:
 import {register} from './controllers/auth.js';
+import {createPost} from './controllers/posts.js';
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
+import postRoutes from './routes/posts.js';
+import { verifyToken } from './middleware/auth.js';
+
 
 //configurations: (only when we use the type:module!)
 const __filename= fileURLToPath(import.meta.url);
@@ -48,17 +54,23 @@ const upload= multer({storage});
 
 //routes with files:
 app.post('auth/register', upload.single('picture'), register)
-
+app.post('/posts', verifyToken, upload.single('picture'), createPost)
 
 
 
 //routes:
 app.use('/auth', authRoutes)
-//(routes to display while the user is in the home page- for example:)
+//( this route is ment for displaying some schemas,  while the user is in the home page- for example):
 app.use('/users', userRoutes)
+app.use('/posts', postRoutes)
 
 
-// mongoose setup:
+
+
+
+
+
+// mongoose setup and connection to the DB:
 const port= process.env.PORT||5000;
 const mongoUrl= process.env.MONGO_URL;
 mongoose.connect(mongoUrl,{
