@@ -13,7 +13,7 @@ import { error } from 'console';
 
 //internal imports:
 import {register} from './controllers/auth.js';
-
+import authRoutes from './routes/auth.js';
 
 //configurations: (only when we use the type:module!)
 const __filename= fileURLToPath(import.meta.url);
@@ -48,6 +48,9 @@ const upload= multer({storage});
 //routes with files:
 app.post('auth/register', upload.single('picture'), register)
 
+
+//routes:
+app.use('/auth', authRoutes)
 
 
 
