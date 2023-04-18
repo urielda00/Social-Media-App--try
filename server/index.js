@@ -14,6 +14,7 @@ import { error } from 'console';
 //internal imports:
 import {register} from './controllers/auth.js';
 import authRoutes from './routes/auth.js';
+import userRoutes from './routes/users.js';
 
 //configurations: (only when we use the type:module!)
 const __filename= fileURLToPath(import.meta.url);
@@ -49,10 +50,12 @@ const upload= multer({storage});
 app.post('auth/register', upload.single('picture'), register)
 
 
+
+
 //routes:
 app.use('/auth', authRoutes)
-
-
+//(routes to display while the user is in the home page- for example:)
+app.use('/users', userRoutes)
 
 
 // mongoose setup:

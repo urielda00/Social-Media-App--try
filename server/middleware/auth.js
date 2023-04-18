@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 
 
 //this middleware is for verify before every action that the user is still logged in!
-export const varifyToken= async (req,res, next)=>{
+export const verifyToken= async (req,res, next)=>{
   try {
   let token= req.header('Authorization')
   if(!token) return res.status(403).send('Access Denied')
