@@ -9,7 +9,10 @@ import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import exp from 'constants';
-import multer from 'multer';
+import { error } from 'console';
+
+//internal imports:
+import {register} from './controllers/auth.js';
 
 
 //configurations: (only when we use the type:module!)
@@ -21,15 +24,16 @@ app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({policy:"cross-origin"}));
 app.use(morgan('common'));
-app.use(bodyParser.json({limit:'30mb', exstended:true}));
-app.use(bodyParser.urlencoded({limit:'30mb', exstended:true}));
+app.use(bodyParser.json({limit:'30mb'}));
+app.use(express.urlencoded({limit:'30mb', extended: true }))
+// app.use(bodyParser.urlencoded({}));
 app.use(cors());
 app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
 
 
 
 //file storage- (later move it into seperate file):
-const multer= multer.diskStorage({
+const storage= multer.diskStorage({
   destination: (req,file,cb)=>{
     cb(null,'public/assets')
   },
@@ -39,3 +43,23 @@ const multer= multer.diskStorage({
 });
 
 const upload= multer({storage});
+
+
+//routes with files:
+app.post('auth/register', upload.single('picture'), register)
+
+
+
+
+
+// mongoose setup:
+const port= process.env.PORT||5000;
+const mongoUrl= process.env.MONGO_URL;
+mongoose.connect(mongoUrl,{
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(()=>{
+  app.listen(port, ()=>console.log(`The port is listening at: ${port}`))
+})
+.catch((error)=>console.log(`${error}, did not connect!`))
