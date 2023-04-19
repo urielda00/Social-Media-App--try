@@ -8,7 +8,7 @@ import {
 import { verifyToken } from '../middleware/auth.js';
 
 
-const router= express.router();
+const router= express.Router();
 
 //read route:
 router.get('/:id',verifyToken, getUser);

@@ -20,6 +20,12 @@ import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
 import postRoutes from './routes/posts.js';
 import { verifyToken } from './middleware/auth.js';
+import User from './models/User.js';
+import Post from './models/Post.js';
+//fake users and posts:
+import {users, posts} from './data/index.js';
+
+
 
 
 //configurations: (only when we use the type:module!)
@@ -79,5 +85,8 @@ mongoose.connect(mongoUrl,{
 })
 .then(()=>{
   app.listen(port, ()=>console.log(`The port is listening at: ${port}`))
+  //Add the data one time (use this only when I need to. that nodemon will not run this every time!):
+  // User.insertMany(users);
+  // Post.insertMany(posts);
 })
 .catch((error)=>console.log(`${error}, did not connect!`))
