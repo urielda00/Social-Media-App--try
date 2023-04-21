@@ -29,7 +29,8 @@ import {
 
 
 const Navbar= ()=>{
-  const [isMobileMenuToggle, setIsMobileMenuToggle]= useState(false); //for mobile menu
+  const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
+ //for mobile menu
   const dispatch= useDispatch();
   const navigate= useNavigate();
   const user= useSelector((state)=> state.user);
@@ -42,7 +43,9 @@ const Navbar= ()=>{
   const background= theme.palette.background.default;
   const primaryLight= theme.palette.primary.light;
   const alt= theme.palette.background.alt;
-  const fullName= `${user.firstName} ${user.lastName}`; //from the user we bought in the useSelector!
+ 
+  const fullName = `${user.firstName} ${user.lastName}`;
+ //from the user we bought in the useSelector!
 
   return(
     //the box component allow us to use inline css as much as we want like the component props. 
