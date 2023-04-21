@@ -1,0 +1,7 @@
+//when we import some files to others, we can start the path from src:
+{
+  "compilerOptions": {
+    "baseUrl": "src"
+  },
+  "include": ["src"]
+}
